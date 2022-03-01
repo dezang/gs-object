@@ -1,8 +1,6 @@
 package domain;
 
-public class DiscountPolicy {
+public interface DiscountPolicy {
 
-    public Money calculateDiscountAmount(Screening screening) {
-        return null;
-    }
+    Money calculateDiscountAmount(Screening screening);
 }
