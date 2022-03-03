@@ -1,1 +1,3 @@
 rootProject.name = 'gs-object'
+include 'Dongle'
+
