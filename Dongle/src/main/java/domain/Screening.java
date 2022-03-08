@@ -1,15 +1,18 @@
 package domain;
 
+import java.time.OffsetDateTime;
+
 public class Screening {
 
-    private final Movie movie;
-
-    public Screening(Movie movie) {
-        this.movie = movie;
+    public Movie getMovie() {
+        return null;
     }
 
-    public Reservation reserve(Customer customer, int audienceCount) {
-        movie.calculateMovieFee(this);
-        return new Reservation(customer, movie, audienceCount);
+    public OffsetDateTime getWhenScreened() {
+        return null;
+    }
+
+    public int getSequence() {
+        return 0;
     }
 }

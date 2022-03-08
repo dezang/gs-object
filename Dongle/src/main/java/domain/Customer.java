@@ -2,9 +2,11 @@ package domain;
 
 public class Customer {
 
-    private final String name;
+    private String name;
+    private String id;
 
-    public Customer(String name) {
+    public Customer(String name, String id) {
         this.name = name;
+        this.id = id;
     }
 }

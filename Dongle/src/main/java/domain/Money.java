@@ -2,13 +2,18 @@ package domain;
 
 public class Money {
 
-    private final long money;
+    public static final Money ZERO = new Money(0);
+    int money = 0;
 
-    public Money(long money) {
+    public Money(int money) {
         this.money = money;
     }
 
-    public Money minus(Money calculateDiscountAmount) {
+    public Money times(double discountPercent) {
+        return null;
+    }
+
+    public Money minus(Money discountAmount) {
         return null;
     }
 }
