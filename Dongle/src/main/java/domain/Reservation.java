@@ -1,7 +1,6 @@
 package domain;
 
 public class Reservation {
-
     private Customer customer;
     private Screening screening;
     private Money fee;
@@ -13,4 +12,5 @@ public class Reservation {
         this.fee = fee;
         this.audienceCount = audienceCount;
     }
+
 }
