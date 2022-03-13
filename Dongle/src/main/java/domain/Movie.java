@@ -14,59 +14,39 @@ public class Movie {
     private Money discountAmount;
     private double discountPercent;
 
-    public String getTitle() {
-        return title;
-    }
+    public Money calculateMovieFee(Screening screening) {
+        if (isDiscountable(screening)) {
+            return fee.minus(calculateDiscountAmount());
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Duration getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(Duration runningTime) {
-        this.runningTime = runningTime;
-    }
-
-    public Money getFee() {
         return fee;
     }
 
-    public void setFee(Money fee) {
-        this.fee = fee;
+    private Money calculateDiscountAmount() {
+        switch (movieType) {
+            case AMOUNT_DISCOUNT:
+                return calculateAmountDiscountAmount();
+            case PERCENT_DISCOUNT:
+                return calculatePercentDiscountAmount();
+            case NONE_DISCOUNT:
+                return calculateNoneDiscountAmount();
+        }
+        return fee;
     }
 
-    public List<DiscountCondition> getDiscountConditions() {
-        return discountConditions;
+    private Money calculateNoneDiscountAmount() {
+        return Money.ZERO;
     }
 
-    public void setDiscountConditions(List<DiscountCondition> discountConditions) {
-        this.discountConditions = discountConditions;
+    private Money calculatePercentDiscountAmount() {
+        return fee.times(discountPercent);
     }
 
-    public MovieType getMovieType() {
-        return movieType;
-    }
-
-    public void setMovieType(MovieType movieType) {
-        this.movieType = movieType;
-    }
-
-    public Money getDiscountAmount() {
+    private Money calculateAmountDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(Money discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
-    public double getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
+    private boolean isDiscountable(Screening screening) {
+        return discountConditions.stream().anyMatch(discountCondition -> discountCondition.isSatisfiedBy(screening));
     }
 }

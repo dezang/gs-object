@@ -6,49 +6,26 @@ import java.time.LocalTime;
 public class DiscountCondition {
 
     private DiscountConditionType type;
-
     private int sequence;
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public DiscountConditionType getType() {
-        return type;
+    public boolean isSatisfiedBy(Screening screening) {
+        if (type == DiscountConditionType.PERIOD) {
+            return isSatisfiedByPeriod(screening);
+        }
+
+        return isSatisfiedBySequence(screening);
     }
 
-    public void setType(DiscountConditionType type) {
-        this.type = type;
+    private boolean isSatisfiedBySequence(Screening screening) {
+        return sequence == screening.getSequence();
     }
 
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    private boolean isSatisfiedByPeriod(Screening screening) {
+        return this.dayOfWeek.equals(screening.getWhenScreened().getDayOfWeek()) &&
+            this.startTime.compareTo(screening.getWhenScreened().toLocalTime()) <= 0 &&
+            this.endTime.compareTo(screening.getWhenScreened().toLocalTime()) >= 0;
     }
 }
