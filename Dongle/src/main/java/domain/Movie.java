@@ -1,38 +1,46 @@
 package domain;
 
-import java.time.Duration;
 import java.util.List;
 
-public abstract class Movie {
+public class Movie {
 
-    private String title;
-    private Duration runningTime;
-    private Money fee;
-    private List<DiscountCondition> discountConditions;
+    private final MovieType movieType;
+    private final Money fee;
+    private final DiscountPolicy discountPolicy;
+    private final List<DiscountCondition> discountConditions;
 
-    Movie(String title, Duration runningTime, Money fee, List<DiscountCondition> discountConditions) {
-        this.title = title;
-        this.runningTime = runningTime;
+    public Movie(MovieType movieType, Money fee, DiscountPolicy discountPolicy, List<DiscountCondition> discountConditions) {
+        this.movieType = movieType;
         this.fee = fee;
+        this.discountPolicy = discountPolicy;
         this.discountConditions = discountConditions;
     }
 
-    private boolean isDiscountable(Screening screening) {
-        return discountConditions.stream().anyMatch(discountCondition -> discountCondition.isSatisfiedBy(screening));
-    }
-
-    abstract protected Money calculateDiscountAmount();
-
     public Money calculateMovieFee(Screening screening) {
-        if (isDiscountable(screening)) {
-            return fee.minus(calculateDiscountAmount());
-        }
+        return fee.minus(discountPolicy.calculateDiscountAmount(screening));
+    }
 
+    public MovieType getMovieType() {
+        return movieType;
+    }
+
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
+
+    public Money getFee() {
         return fee;
     }
 
-    protected Money getFee() {
-        return fee;
+    public Money getDiscountAmount() {
+        return null;
     }
 
+    public List<DiscountCondition> getDiscountConditions() {
+        return discountConditions;
+    }
+
+    public double getDiscountPercent() {
+        return 0;
+    }
 }

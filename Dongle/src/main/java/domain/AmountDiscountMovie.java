@@ -1,19 +1,14 @@
 package domain;
 
-import java.time.Duration;
-import java.util.List;
-
-public class AmountDiscountMovie extends Movie {
+public class AmountDiscountMovie implements DiscountPolicy {
 
     private Money discountAmount;
 
-    public AmountDiscountMovie(String title, Duration runningTime, Money fee, List<DiscountCondition> discountConditions, Money discountAmount) {
-        super(title, runningTime, fee, discountConditions);
+    public AmountDiscountMovie(Money discountAmount) {
         this.discountAmount = discountAmount;
     }
-
     @Override
-    protected Money calculateDiscountAmount() {
+    public Money calculateDiscountAmount(Screening screening) {
         return discountAmount;
     }
 }
