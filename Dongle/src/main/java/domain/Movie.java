@@ -1,72 +1,46 @@
 package domain;
 
-import java.time.Duration;
 import java.util.List;
 
 public class Movie {
 
-    private String title;
-    private Duration runningTime;
-    private Money fee;
-    private List<DiscountCondition> discountConditions;
+    private final MovieType movieType;
+    private final Money fee;
+    private final DiscountPolicy discountPolicy;
+    private final List<DiscountCondition> discountConditions;
 
-    private MovieType movieType;
-    private Money discountAmount;
-    private double discountPercent;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Duration getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(Duration runningTime) {
-        this.runningTime = runningTime;
-    }
-
-    public Money getFee() {
-        return fee;
-    }
-
-    public void setFee(Money fee) {
+    public Movie(MovieType movieType, Money fee, DiscountPolicy discountPolicy, List<DiscountCondition> discountConditions) {
+        this.movieType = movieType;
         this.fee = fee;
-    }
-
-    public List<DiscountCondition> getDiscountConditions() {
-        return discountConditions;
-    }
-
-    public void setDiscountConditions(List<DiscountCondition> discountConditions) {
+        this.discountPolicy = discountPolicy;
         this.discountConditions = discountConditions;
+    }
+
+    public Money calculateMovieFee(Screening screening) {
+        return fee.minus(discountPolicy.calculateDiscountAmount(screening));
     }
 
     public MovieType getMovieType() {
         return movieType;
     }
 
-    public void setMovieType(MovieType movieType) {
-        this.movieType = movieType;
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
+    }
+
+    public Money getFee() {
+        return fee;
     }
 
     public Money getDiscountAmount() {
-        return discountAmount;
+        return null;
     }
 
-    public void setDiscountAmount(Money discountAmount) {
-        this.discountAmount = discountAmount;
+    public List<DiscountCondition> getDiscountConditions() {
+        return discountConditions;
     }
 
     public double getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
+        return 0;
     }
 }
